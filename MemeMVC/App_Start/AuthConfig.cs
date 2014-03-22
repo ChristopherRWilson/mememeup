@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
-using Meme.Models;
+using MemeMeUp.Models;
 
-namespace Meme
+namespace MemeMeUp
 {
     public static class AuthConfig
     {

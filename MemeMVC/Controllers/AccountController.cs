@@ -8,10 +8,10 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using Meme.Filters;
-using Meme.Models;
+using MemeMeUp.Filters;
+using MemeMeUp.Models;
 
-namespace Meme.Controllers
+namespace MemeMeUp.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace Meme
+namespace MemeMeUp
 {
     public static class WebApiConfig
     {

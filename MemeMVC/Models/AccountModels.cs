@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
 
-namespace Meme.Models
+namespace MemeMeUp.Models
 {
     public class UsersContext : DbContext
     {

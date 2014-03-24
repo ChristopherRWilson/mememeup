@@ -18,5 +18,6 @@ namespace MemeMeUp.Models
         public bool Enabled { get; set; } // Will this meme be visible to users?
         public string FileUrl { get; set; }
         public string ThumbUrl { get; set; }
+        public string MedUrl { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace MemeMeUp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.FileUrl = meme.FileUrl;
+            ViewBag.FileUrl = meme.MedUrl;
             return View(meme);
         }
 
@@ -79,8 +79,10 @@ namespace MemeMeUp.Controllers
                 string fileType = image.ContentType.ToString();
                 string imageFileName = Guid.NewGuid().ToString();
                 string imageUrl = string.Format("{0}{1}", imageFileName, fileExtension);
+                string imageUrlMed = string.Format("{0}_med{1}", imageFileName, fileExtension);
                 string imageUrlThumb = string.Format("{0}_thumb{1}", imageFileName, fileExtension);
                 string imagePath = string.Format("{0}/{1}{2}", Server.MapPath("~/Uploads"), imageFileName, fileExtension);
+                string imagePathMed = string.Format("{0}/{1}_med{2}", Server.MapPath("~/Uploads"), imageFileName, fileExtension);
                 string imagePathTemp = string.Format("{0}/{1}_temp{2}", Server.MapPath("~/Uploads"), imageFileName, fileExtension);
                 string imagePathThumb = string.Format("{0}/{1}_thumb{2}", Server.MapPath("~/Uploads"), imageFileName, fileExtension);
                 image.SaveAs(imagePathTemp);
@@ -88,16 +90,24 @@ namespace MemeMeUp.Controllers
 
                 Image tempImage = Image.FromFile(imagePathTemp);
                 Image finalImage = ScaleImage(tempImage, 600, 600);
-                Image thumbImage = ScaleImage(tempImage, 175,175);
+                Image medImage = ScaleImage(tempImage, 400, 400);
+                Image thumbImage = ScaleImage(tempImage, 175, 175);
 
                 finalImage.Save(imagePath);
+                medImage.Save(imagePathMed);
                 thumbImage.Save(imagePathThumb);
 
-                //System.IO.File.Delete(imagePathTemp);
+                tempImage.Dispose();
+                medImage.Dispose();
+                finalImage.Dispose();
+                thumbImage.Dispose();
+
+                System.IO.File.Delete(imagePathTemp);
 
                 meme.AddedDate = DateTime.Now;
                 meme.AddedBy = 0;
                 meme.FileUrl = imageUrl;
+                meme.MedUrl = imageUrlMed;
                 meme.ThumbUrl = imageUrlThumb;
 
                 db.Memes.Add(meme);
@@ -130,7 +140,6 @@ namespace MemeMeUp.Controllers
                 }
                 catch (Exception)
                 {
-                    /*TODO: You must process this exception.*/
                     result = false;
                 }
             }

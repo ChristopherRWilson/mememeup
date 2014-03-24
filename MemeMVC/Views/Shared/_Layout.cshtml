@@ -20,9 +20,11 @@
                     <p class="site-title"><a href="@Url.Action("Index", "Home")"><img src="/Images/mememeup.png" /></a></p>
                 </div>
                 <div class="float-right">
+                    <!--
                     <section id="login">
                         @Html.Partial("_LoginPartial")
                     </section>
+                        -->
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -50,3 +52,4 @@
         @RenderSection("scripts", required: false)
     </body>
 </html>
+

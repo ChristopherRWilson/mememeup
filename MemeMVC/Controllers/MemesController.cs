@@ -35,6 +35,7 @@ namespace MemeMeUp.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.MemeID = meme.Id;
             ViewBag.FileUrl = meme.MedUrl;
             return View(meme);
         }
@@ -89,9 +90,13 @@ namespace MemeMeUp.Controllers
                 image.InputStream.Close();
 
                 Image tempImage = Image.FromFile(imagePathTemp);
-                Image finalImage = ScaleImage(tempImage, 600, 600);
-                Image medImage = ScaleImage(tempImage, 400, 400);
-                Image thumbImage = ScaleImage(tempImage, 175, 175);
+
+                tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, "Test!", true);
+                tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, "Something on the bottom", false);
+                
+                Image finalImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 600, 600);
+                Image medImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 400, 400);
+                Image thumbImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 175, 175);
 
                 finalImage.Save(imagePath);
                 medImage.Save(imagePathMed);
@@ -144,20 +149,6 @@ namespace MemeMeUp.Controllers
                 }
             }
             return result;
-        }
-
-        public static Image ScaleImage(Image image, int maxWidth, int maxHeight)
-        {
-            var ratioX = (double)maxWidth / image.Width;
-            var ratioY = (double)maxHeight / image.Height;
-            var ratio = Math.Min(ratioX, ratioY);
-
-            var newWidth = (int)(image.Width * ratio);
-            var newHeight = (int)(image.Height * ratio);
-
-            var newImage = new Bitmap(newWidth, newHeight);
-            Graphics.FromImage(newImage).DrawImage(image, 0, 0, newWidth, newHeight);
-            return newImage;
         }
     }
 }

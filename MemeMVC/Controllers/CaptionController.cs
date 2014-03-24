@@ -12,7 +12,7 @@ namespace MemeMeUp.Controllers
     public class CaptionController : Controller
     {
         private CaptionContext db = new CaptionContext();
-
+        private MemeContext memeDb = new MemeContext();
         //
         // GET: /Caption/
 
@@ -27,6 +27,9 @@ namespace MemeMeUp.Controllers
         public ActionResult Details(long id = 0)
         {
             Caption caption = db.Captions.Find(id);
+            Meme parentMeme = memeDb.Memes.Find(caption.MemeID);
+            if (parentMeme == null)
+
             if (caption == null)
             {
                 return HttpNotFound();
@@ -37,8 +40,11 @@ namespace MemeMeUp.Controllers
         //
         // GET: /Caption/Create
 
-        public ActionResult Create()
+        public ActionResult Create(long id)
         {
+            Meme parentMeme = memeDb.Memes.Find(id);
+            ViewBag.MemeTitle = parentMeme.Title;
+            ViewBag.ParentMemeUrl = parentMeme.MedUrl;
             return View();
         }
 
@@ -59,6 +65,7 @@ namespace MemeMeUp.Controllers
             return View(caption);
         }
 
+        /*
         //
         // GET: /Caption/Edit/5
 
@@ -113,6 +120,7 @@ namespace MemeMeUp.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        */
 
         protected override void Dispose(bool disposing)
         {

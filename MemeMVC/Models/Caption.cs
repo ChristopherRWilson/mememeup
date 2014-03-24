@@ -16,5 +16,6 @@ namespace MemeMeUp.Models
         public DateTime AddedDate { get; set; }
         public long AddedBy { get; set; }
         public bool Enabled { get; set; }
+        public long MemeID { get; set; }
     }
 }

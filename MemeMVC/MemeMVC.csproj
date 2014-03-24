@@ -192,6 +192,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Caption.cs" />
     <Compile Include="Models\CaptionContext.cs" />
+    <Compile Include="Models\Helpers\MemeGraphics.cs" />
     <Compile Include="Models\Meme.cs" />
     <Compile Include="Models\MemeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -315,8 +316,6 @@
     <Content Include="Views\Caption\Index.cshtml" />
     <Content Include="Views\Caption\Details.cshtml" />
     <Content Include="Views\Caption\Create.cshtml" />
-    <Content Include="Views\Caption\Edit.cshtml" />
-    <Content Include="Views\Caption\Delete.cshtml" />
     <Content Include="Views\Memes\Details.cshtml" />
     <Content Include="Views\Memes\Create.cshtml" />
     <Content Include="Views\Memes\Index.cshtml" />

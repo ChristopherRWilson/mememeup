@@ -1,0 +1,68 @@
+﻿@model MemeMeUp.Models.Caption
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Caption</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TopText)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TopText)
+            @Html.ValidationMessageFor(model => model.TopText)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BottomText)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BottomText)
+            @Html.ValidationMessageFor(model => model.BottomText)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AddedDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AddedDate)
+            @Html.ValidationMessageFor(model => model.AddedDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AddedBy)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AddedBy)
+            @Html.ValidationMessageFor(model => model.AddedBy)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Enabled)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Enabled)
+            @Html.ValidationMessageFor(model => model.Enabled)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

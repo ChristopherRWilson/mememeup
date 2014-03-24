@@ -1,0 +1,26 @@
+﻿@model MemeMeUp.Models.Meme
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.Title)</h2>
+
+<fieldset>
+    <legend>Meme</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-field">
+        <img src="/Uploads/@ViewBag.FileURL" />
+    </div>
+
+</fieldset>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

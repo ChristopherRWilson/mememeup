@@ -16,6 +16,12 @@ namespace MemeMeUp
     {
         protected void Application_Start()
         {
+
+            System.Data.Entity.Database.SetInitializer(new System.Data.Entity.CreateDatabaseIfNotExists<MemeMeUp.Models.MemeContext>());
+            System.Data.Entity.Database.SetInitializer(new System.Data.Entity.CreateDatabaseIfNotExists<MemeMeUp.Models.CaptionContext>());
+            System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<MemeMeUp.Models.MemeContext>());
+            System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<MemeMeUp.Models.CaptionContext>());
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

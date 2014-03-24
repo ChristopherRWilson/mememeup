@@ -1,0 +1,50 @@
+﻿@model MemeMeUp.Models.Caption
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Caption</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TopText)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TopText)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BottomText)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BottomText)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AddedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AddedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AddedBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AddedBy)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Enabled)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Enabled)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace MemeMeUp.Models
 {
     /// <summary>
@@ -11,7 +14,15 @@ namespace MemeMeUp.Models
     public class Meme
     {
         public long Id { get; set; }
+        
+        [DisplayName( "Meme")]
+        [Required(ErrorMessage = "Name is required.")]
+        [StringLength(25, ErrorMessage = "Name cannot be longer than 25 characters.")]
         public string Title { get; set; }
+
+        [DisplayName ( "Description")]
+        [Required(ErrorMessage = "Description is required.")]
+        [StringLength(250, ErrorMessage = "Name cannot be longer than 250 characters.")]
         public string Description { get; set; }
         public DateTime AddedDate { get; set; }
         public long AddedBy { get; set; } // User ID of who originally uploaded the meme

@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using MemeMeUp.Models;
 
+using System.IO;
+using System.Drawing;
+
 namespace MemeMeUp.Controllers
 {
     public class CaptionController : Controller
@@ -44,6 +47,7 @@ namespace MemeMeUp.Controllers
         {
             Meme parentMeme = memeDb.Memes.Find(id);
             ViewBag.MemeTitle = parentMeme.Title;
+            ViewBag.ParentMemeID = parentMeme.Id;
             ViewBag.ParentMemeUrl = parentMeme.MedUrl;
             return View();
         }
@@ -59,11 +63,50 @@ namespace MemeMeUp.Controllers
             {
                 db.Captions.Add(caption);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
+                Meme parentMeme = memeDb.Memes.Find(caption.Id);
+                string memeUrl = Server.MapPath(string.Format("/Uploads/{0}", parentMeme.MedUrl));
+                Image tempImage = Image.FromFile(memeUrl);
+
+                if (!string.IsNullOrEmpty(caption.TopText))
+                    tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, caption.TopText, true);
+                if (!string.IsNullOrEmpty(caption.BottomText))
+                    tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, caption.BottomText, false);
+
+                //tempImage.Save(ms,System.Drawing.Imaging.ImageFormat.Jpeg);
+                return RedirectToAction("Details");
+            }
             return View(caption);
         }
+
+        public ActionResult Preview(Caption tempCaption)
+        {
+            Meme parentMeme = memeDb.Memes.Find(tempCaption.MemeID);
+            string memeUrl = Server.MapPath(string.Format("/Uploads/{0}", parentMeme.MedUrl));
+            Image tempImage = Image.FromFile(memeUrl);
+            byte[] imageBytes;
+
+            string topText = tempCaption.TopText;
+            string bottomText = tempCaption.BottomText;
+
+            if (!string.IsNullOrEmpty(topText))
+                tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, topText, true);
+            if (!string.IsNullOrEmpty(bottomText))
+                tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, bottomText, false);
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Convert Image to byte[]
+                tempImage.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                imageBytes = ms.ToArray();
+
+                // Convert byte[] to Base64 String
+                string base64String = Convert.ToBase64String(imageBytes);
+            }
+
+            return Json(new { base64imgage = Convert.ToBase64String(imageBytes) }, JsonRequestBehavior.AllowGet);
+        }
+    
 
         /*
         //

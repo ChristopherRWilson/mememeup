@@ -28,24 +28,18 @@ namespace MemeMeUp.Models.Helpers
 
         public static Image OverlayText(Image image, string text, bool OnTop)
         {
-            //int imageWidth = image.Width;
-            //int imageCenter = 0;
-            //int textY = 10;
-            
+            text = MemeMeUp.Models.Helpers.MemeText.SplitSentence(text);
             float fontSize = 10;
             SizeF textSize = new SizeF();
-            Pen p = new Pen(Brushes.Black, 3);
+            Pen p = new Pen(Brushes.Black, 6);
             GraphicsPath gp = new GraphicsPath();
             Rectangle r = new Rectangle(0, 0, image.Width, image.Height);
-
-            p.LineJoin = LineJoin.Round;
 
             StringFormat sf = new StringFormat();
             sf.Alignment = StringAlignment.Center;
             sf.LineAlignment = StringAlignment.Far;
 
             Font myFont = new Font("Impact", 10, FontStyle.Bold, GraphicsUnit.Pixel);
-            FontFamily myFam = myFont.FontFamily;
 
             Graphics bmImage = Graphics.FromImage(image);
 
@@ -54,16 +48,16 @@ namespace MemeMeUp.Models.Helpers
                 myFont = new Font("Impact", (float)i);
                 textSize = bmImage.MeasureString(text, myFont);
                 fontSize = i;
-                if (textSize.Width > (image.Width * .85))
+                if (textSize.Width > image.Width)
                     break;
             }
 
-            //imageCenter = (image.Width - (int)textSize.Width) / 2;
             if (OnTop)
                 sf.LineAlignment = StringAlignment.Near;
 
-            gp.AddString(text, myFam, (int)FontStyle.Regular, myFont.SizeInPoints, r, sf);
+            gp.AddString(text, myFont.FontFamily, (int)FontStyle.Bold, myFont.SizeInPoints, r, sf);
 
+            p.LineJoin = LineJoin.Round;
             bmImage.SmoothingMode = SmoothingMode.HighQuality;
             bmImage.PixelOffsetMode = PixelOffsetMode.HighQuality;
             bmImage.DrawPath(p, gp);

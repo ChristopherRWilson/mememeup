@@ -193,6 +193,7 @@
     <Compile Include="Models\Caption.cs" />
     <Compile Include="Models\CaptionContext.cs" />
     <Compile Include="Models\Helpers\MemeGraphics.cs" />
+    <Compile Include="Models\Helpers\MemeText.cs" />
     <Compile Include="Models\Meme.cs" />
     <Compile Include="Models\MemeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -259,13 +260,8 @@
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
-    <Content Include="Scripts\jquery-ui-1.9.2min.js" />
-    <Content Include="Scripts\jquery.fileupload-ui.js" />
-    <Content Include="Scripts\jquery.fileupload.js" />
-    <Content Include="Scripts\jquery.iframe-transport.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -319,6 +315,8 @@
     <Content Include="Views\Memes\Details.cshtml" />
     <Content Include="Views\Memes\Create.cshtml" />
     <Content Include="Views\Memes\Index.cshtml" />
+    <Content Include="Views\Caption\_CaptionPreview.cshtml" />
+    <Content Include="Views\Caption\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

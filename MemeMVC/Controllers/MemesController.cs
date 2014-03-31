@@ -10,6 +10,7 @@ using MemeMeUp.Models;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace MemeMeUp.Controllers
 {
@@ -55,29 +56,13 @@ namespace MemeMeUp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Meme meme)
         {
-            HttpPostedFileBase image;// = new HttpPostedFileBase();
-            string fileExtension = "";
+            HttpPostedFileBase image;
+            string fileExtension = ".jpg";
 
-            if (Request.Files.Count == 0)
-                return View(meme);
-
-            image = Request.Files[0];
-
-            switch (image.ContentType.ToLower())
+            if (ModelState.IsValid && Request.Files.Count != 0)
             {
-                case "image/jpeg":
-                    fileExtension = ".jpg";
-                    break;
-                case "image/png":
-                    fileExtension = ".png";
-                    break;
-                default:
-                    return View(meme);
-            }
+                image = Request.Files[0];
 
-            if (ModelState.IsValid)
-            {
-                string fileType = image.ContentType.ToString();
                 string imageFileName = Guid.NewGuid().ToString();
                 string imageUrl = string.Format("{0}{1}", imageFileName, fileExtension);
                 string imageUrlMed = string.Format("{0}_med{1}", imageFileName, fileExtension);
@@ -86,21 +71,30 @@ namespace MemeMeUp.Controllers
                 string imagePathMed = string.Format("{0}/{1}_med{2}", Server.MapPath("~/Uploads"), imageFileName, fileExtension);
                 string imagePathTemp = string.Format("{0}/{1}_temp{2}", Server.MapPath("~/Uploads"), imageFileName, fileExtension);
                 string imagePathThumb = string.Format("{0}/{1}_thumb{2}", Server.MapPath("~/Uploads"), imageFileName, fileExtension);
+
+                Encoder myEncoder = Encoder.Quality;
+                EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);
+                EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                myEncoderParameters.Param[0] = myEncoderParameter;
+                ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+
                 image.SaveAs(imagePathTemp);
                 image.InputStream.Close();
 
                 Image tempImage = Image.FromFile(imagePathTemp);
 
-                tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, "Test!", true);
-                tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, "Something on the bottom", false);
-                
-                Image finalImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 600, 600);
-                Image medImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 400, 400);
+                //finalImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 600, 600);
+
+                //tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, "Test!", true);
+                //tempImage = MemeMeUp.Models.Helpers.MemeGraphics.OverlayText(tempImage, "Something on the bottom", false);
+
+                Image finalImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 800, 800);
+                Image medImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 600, 600);
                 Image thumbImage = MemeMeUp.Models.Helpers.MemeGraphics.ScaleImage(tempImage, 175, 175);
 
-                finalImage.Save(imagePath);
-                medImage.Save(imagePathMed);
-                thumbImage.Save(imagePathThumb);
+                finalImage.Save(imagePath, jgpEncoder, myEncoderParameters);
+                medImage.Save(imagePathMed, jgpEncoder, myEncoderParameters);
+                thumbImage.Save(imagePathThumb, jgpEncoder, myEncoderParameters);
 
                 tempImage.Dispose();
                 medImage.Dispose();
@@ -121,6 +115,19 @@ namespace MemeMeUp.Controllers
             }
 
             return View(meme);
+        }
+
+        private ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
         }
 
         protected override void Dispose(bool disposing)

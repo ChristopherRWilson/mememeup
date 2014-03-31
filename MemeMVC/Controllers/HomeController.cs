@@ -13,7 +13,7 @@ namespace MemeMeUp.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-            return View(db.Memes.ToList());
+                return View(db.Memes.ToList());
         }
 
         public ActionResult About()
